@@ -1,0 +1,18 @@
+- include: unzip.yml
+
+- name: download awscli bundle installer
+  get_url:
+    url: https://s3.amazonaws.com/aws-cli/awscli-bundle.zip
+    dest: /usr/local/src/awscli-bundle.zip
+
+- name: unzip awscli bundle installer
+  unarchive:
+    src: /usr/local/src/awscli-bundle.zip
+    dest: /usr/local/src
+    creates: /usr/local/src/awscli-bundle
+    copy: no
+
+- name: install awscli
+  command: "/usr/local/src/awscli-bundle/install -i {{ awscli_install_dir }} -b {{ awscli_bin_location }}"
+  args:
+    creates: "{{ awscli_install_dir }}"
